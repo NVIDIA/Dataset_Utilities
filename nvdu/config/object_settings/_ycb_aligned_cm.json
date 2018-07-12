@@ -1,0 +1,258 @@
+{
+	"exported_object_classes": [
+		"002_master_chef_can",
+		"003_cracker_box",
+		"004_sugar_box",
+		"005_tomato_soup_can",
+		"006_mustard_bottle",
+		"007_tuna_fish_can",
+		"008_pudding_box",
+		"009_gelatin_box",
+		"010_potted_meat_can",
+		"011_banana",
+		"019_pitcher_base",
+		"021_bleach_cleanser",
+		"024_bowl",
+		"025_mug",
+		"035_power_drill",
+		"036_wood_block",
+		"037_scissors",
+		"040_large_marker",
+		"051_large_clamp",
+		"052_extra_large_clamp",
+		"061_foam_brick"
+	],
+	"exported_objects": [
+		{
+			"class": "002_master_chef_can",
+			"segmentation_class_id": 12,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 10.240400314331055, 14.0177001953125, 10.230899810791016 ]
+		},
+		{
+			"class": "003_cracker_box",
+			"segmentation_class_id": 24,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 16.403600692749023, 21.343700408935547, 7.179999828338623 ]
+		},
+		{
+			"class": "004_sugar_box",
+			"segmentation_class_id": 36,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 9.2677001953125, 17.625299453735352, 4.5134000778198242 ]
+		},
+		{
+			"class": "005_tomato_soup_can",
+			"segmentation_class_id": 48,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 6.7659001350402832, 10.185500144958496, 6.771399974822998 ]
+		},
+		{
+			"class": "006_mustard_bottle",
+			"segmentation_class_id": 60,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 9.6023998260498047, 19.130100250244141, 5.8249001502990723 ]
+		},
+		{
+			"class": "007_tuna_fish_can",
+			"segmentation_class_id": 72,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 8.5558996200561523, 3.3538000583648682, 8.5539999008178711 ]
+		},
+		{
+			"class": "008_pudding_box",
+			"segmentation_class_id": 84,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 11.365400314331055, 8.9816999435424805, 3.8471000194549561 ]
+		},
+		{
+			"class": "009_gelatin_box",
+			"segmentation_class_id": 96,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 8.918299674987793, 7.311500072479248, 2.9983000755310059 ]
+		},
+		{
+			"class": "010_potted_meat_can",
+			"segmentation_class_id": 108,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 10.164699554443359, 8.3542995452880859, 5.7600998878479004 ]
+		},
+		{
+			"class": "011_banana",
+			"segmentation_class_id": 120,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 19.717399597167969, 3.8649001121520996, 7.4065999984741211 ]
+		},
+		{
+			"class": "019_pitcher_base",
+			"segmentation_class_id": 132,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 18.861799240112305, 24.238700866699219, 13.310600280761719 ]
+		},
+		{
+			"class": "021_bleach_cleanser",
+			"segmentation_class_id": 144,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 10.243300437927246, 25.058000564575195, 6.769899845123291 ]
+		},
+		{
+			"class": "024_bowl",
+			"segmentation_class_id": 156,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 16.116399765014648, 5.5008997917175293, 16.146299362182617 ]
+		},
+		{
+			"class": "025_mug",
+			"segmentation_class_id": 168,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 11.699000358581543, 8.1302995681762695, 9.3087997436523438 ]
+		},
+		{
+			"class": "035_power_drill",
+			"segmentation_class_id": 180,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 18.436100006103516, 18.683599472045898, 5.7192001342773438 ]
+		},
+		{
+			"class": "036_wood_block",
+			"segmentation_class_id": 192,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 8.969599723815918, 20.609199523925781, 9.0780000686645508 ]
+		},
+		{
+			"class": "037_scissors",
+			"segmentation_class_id": 204,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 20.259799957275391, 8.7530002593994141, 1.565500020980835 ]
+		},
+		{
+			"class": "040_large_marker",
+			"segmentation_class_id": 216,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 1.8833999633789063, 12.088600158691406, 1.9476000070571899 ]
+		},
+		{
+			"class": "051_large_clamp",
+			"segmentation_class_id": 228,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 16.494100570678711, 12.166600227355957, 3.6412999629974365 ]
+		},
+		{
+			"class": "052_extra_large_clamp",
+			"segmentation_class_id": 240,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 20.259599685668945, 16.520299911499023, 3.6475999355316162 ]
+		},
+		{
+			"class": "061_foam_brick",
+			"segmentation_class_id": 252,
+			"fixed_model_transform": [
+				[ 1, 0, 0, 0 ],
+				[ 0, 1, 0, 0 ],
+				[ 0, 0, 1, 0 ],
+				[ 0, 0, 0, 1 ]
+			],
+			"cuboid_dimensions": [ 7.7873997688293457, 5.1192998886108398, 5.2560000419616699 ]
+		}
+	]
+}
