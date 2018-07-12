@@ -23,11 +23,11 @@ This project is a collection of Python scripts to help work with datasets for de
 
 _Using ssh path:_
 ```
-git clone ssh://git@gitlab-master.nvidia.com:12051/thangt/nvdu.git
+git clone ssh://github.com/NVIDIA/Dataset_Utilities.git
 ```
 _Using https path:_
 ```
-git clone https://gitlab-master.nvidia.com/thangt/nvdu.git
+git clone https://github.com/NVIDIA/Dataset_Utilities.git
 ```
 **Go inside the cloned repo**
 ```
