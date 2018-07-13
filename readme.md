@@ -21,10 +21,6 @@ This project is a collection of Python scripts to help work with datasets for de
 ## Install from repo:
 **Clone the repo**
 
-_Using ssh path:_
-```
-git clone ssh://github.com/NVIDIA/Dataset_Utilities.git
-```
 _Using https path:_
 ```
 git clone https://github.com/NVIDIA/Dataset_Utilities.git
