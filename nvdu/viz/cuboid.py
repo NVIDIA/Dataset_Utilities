@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -12,7 +12,7 @@ from nvdu.core.cuboid import *
 
 # ========================= Cuboid3d =========================
 # TODO: Should merge Cuboid and Box3d
-class Cuboid3dViz(SceneObjectViz):
+class Cuboid3dViz(SceneObjectViz3d):
     # Create a box with a certain size
     def __init__(self, cuboid3d, in_color=None):
         super(Cuboid3dViz, self).__init__(cuboid3d)
@@ -124,7 +124,7 @@ class Cuboid3dViz(SceneObjectViz):
         # glDisable(GL_POLYGON_SMOOTH)
 
 # ========================= Cuboid2d =========================
-class Cuboid2dViz(SceneObjectViz):
+class Cuboid2dViz(SceneObjectVizBase):
     # Create a box with a certain size
     def __init__(self, cuboid2d, in_color=None):
         super(Cuboid2dViz, self).__init__(cuboid2d)

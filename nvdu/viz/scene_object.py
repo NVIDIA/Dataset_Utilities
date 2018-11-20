@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -10,11 +10,39 @@ from .utils3d import *
 from nvdu.core import transform3d
 from nvdu.core import scene_object
 
-class SceneObjectViz(object):
+class SceneObjectVizBase(object):
     def __init__(self, scene_object):
         self.scene_object = scene_object
         self.render_mode = RenderMode.normal
         self._is_visible = True
+
+    def draw(self):
+        if ((self.scene_object is None) or (not self.is_visible())):
+            return
+
+        self.on_draw()
+
+    def on_draw(self):
+        pass
+
+    def is_visible(self):
+        return self._is_visible
+
+    def set_visibility(self, should_visible):
+        self._is_visible = should_visible
+
+    def hide(self):
+        self._is_visible = False
+    
+    def show(self):
+        self._is_visible = True
+
+    def toggle_visibility(self):
+        self._is_visible = not self._is_visible
+
+class SceneObjectViz3d(SceneObjectVizBase):
+    def __init__(self, scene_object):
+        super(SceneObjectViz3d, self).__init__(scene_object)
 
     def draw(self):
         if ((self.scene_object is None) or (not self.is_visible())):
@@ -35,21 +63,3 @@ class SceneObjectViz(object):
         self.on_draw()
 
         glPopMatrix()
-
-    def on_draw(self):
-        pass
-
-    def is_visible(self):
-        return self._is_visible
-
-    def set_visibility(self, should_visible):
-        self._is_visible = should_visible
-
-    def hide(self):
-        self._is_visible = False
-    
-    def show(self):
-        self._is_visible = True
-
-    def toggle_visibility(self):
-        self._is_visible = not self._is_visible

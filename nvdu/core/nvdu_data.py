@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -113,15 +113,15 @@ def get_number_of_frames(data_dir_path, frame_name_format=DEFAULT_FRAME_NAME_FOR
 class NVDUDataset(object):
     DEFAULT_IMAGE_NAME_FILTERS = ["*.png"]
     
-    def __init__(self, in_dataset_dir: str, 
-            in_annotation_dir: str = None,
+    def __init__(self, in_dataset_dir, 
+            in_annotation_dir = None,
             in_img_name_filters = None):
-        self._dataset_dir: str = in_dataset_dir
-        self._annotation_dr: str = in_annotation_dir if (not in_annotation_dir is None) else self._dataset_dir
+        self._dataset_dir = in_dataset_dir
+        self._annotation_dr = in_annotation_dir if (not in_annotation_dir is None) else self._dataset_dir
         self._img_name_filters = in_img_name_filters if (not in_img_name_filters is None) else NVDUDataset.DEFAULT_IMAGE_NAME_FILTERS
         
         self._frame_names = []
-        self._frame_count: int = 0
+        self._frame_count = 0
 
     @property
     def frame_names(self):
@@ -210,17 +210,20 @@ class NVDUDataset(object):
 class ExportedObjectSettings(object):
     def __init__(self, name = '', mesh_file_path = '', initial_matrix = None,
             cuboid_dimension = Vector3([0, 0, 0]), cuboid_center = Vector3([0, 0, 0]),
-            coord_system = CoordinateSystem(), obj_class_id = 0):
+            coord_system = CoordinateSystem(), obj_class_id = 0, obj_color = None):
         self.name = ''
         self.mesh_file_path = mesh_file_path
         self.initial_matrix = initial_matrix
 
         self.class_id = obj_class_id
-        # TODO: Add option to customize the color for different object classes
-        self.class_color = [0, 0, 0, 255]
-        self.class_color[0] = int((self.class_id >> 5) / 7.0 * 255)
-        self.class_color[1] = int(((self.class_id >> 2) & 7) / 7.0 * 255)
-        self.class_color[2] = int((self.class_id & 3) / 3.0 * 255)
+        # If object's color not specified then calculate it automatically from the id
+        if (obj_color is None):
+            self.class_color = [0, 0, 0, 255]
+            self.class_color[0] = int((self.class_id >> 5) / 7.0 * 255)
+            self.class_color[1] = int(((self.class_id >> 2) & 7) / 7.0 * 255)
+            self.class_color[2] = int((self.class_id & 3) / 3.0 * 255)
+        else:
+            self.class_color = obj_color
 
         self.cuboid_dimension = cuboid_dimension
         self.cuboid_center_local = cuboid_center
@@ -240,7 +243,7 @@ class ExporterSettings(object):
     @classmethod
     def parse_from_json_data(cls, json_data):
         parsed_exporter_settings = ExporterSettings()
-        parsed_exporter_settings.captured_image_size = json_data['capturedImageSize']
+        parsed_exporter_settings.captured_image_size = json_data['captured_image_size']
         print("parsed_exporter_settings.captured_image_size: {}".format(parsed_exporter_settings.captured_image_size))
         
         return parsed_exporter_settings
@@ -266,11 +269,13 @@ class DatasetSettings():
             obj_cuboid_dimension = check_obj['cuboid_dimensions'] if ('cuboid_dimensions' in check_obj) else Vector3([0, 0, 0])
             obj_cuboid_center = check_obj['cuboid_center_local'] if ('cuboid_center_local' in check_obj) else Vector3([0, 0, 0])
             obj_class_id = int(check_obj['segmentation_class_id']) if ('segmentation_class_id' in check_obj) else 0
+            obj_color = check_obj['color'] if ('color' in check_obj) else None
 
             new_obj_info = ExportedObjectSettings(obj_class, obj_mesh_file_path, 
-                obj_initial_matrix, obj_cuboid_dimension, obj_cuboid_center, coord_system, obj_class_id)
+                obj_initial_matrix, obj_cuboid_dimension, obj_cuboid_center, coord_system, obj_class_id, obj_color)
 
             # print('scan_settings_data: {}'.format(new_obj_info))
+            # print('obj_mesh_file_path: {}'.format(obj_mesh_file_path))
             parsed_settings.obj_settings[obj_class] = new_obj_info
         
         return parsed_settings
@@ -282,8 +287,8 @@ class DatasetSettings():
         if (path.exists(setting_file_path)):
             json_data = json.load(open(setting_file_path))
             parsed_settings = cls.parse_from_json_data(json_data, mesh_dir_path)
-            # print('parse_from_file: setting_file_path: {} - mesh_dir_path: {} - parsed_settings: {}'.format(
-            #     setting_file_path, mesh_dir_path, parsed_settings))
+            print('parse_from_file: setting_file_path: {} - mesh_dir_path: {} - parsed_settings: {}'.format(
+                setting_file_path, mesh_dir_path, parsed_settings))
 
         return parsed_settings
 
@@ -322,6 +327,7 @@ class AnnotatedObjectInfo(SceneObject):
         self.quaternion = pyrr.Quaternion([0.0, 0.0, 0.0, 1.0])
         # self.bb2d = BoundingBox()
         self.cuboid2d = None
+        self.keypoints = []
 
         if not (self.object_settings is None):
             self.dimension = self.object_settings.cuboid_dimension
@@ -370,6 +376,12 @@ class AnnotatedObjectInfo(SceneObject):
             # print('img_width: {} - img_height: {}'.format(img_width, img_height))
             # print('cuboid2d_vertices: {}'.format(cuboid2d_vertices))
             parsed_object.cuboid2d = Cuboid2d(cuboid2d_vertices)
+
+        # Parse the keypoints
+        if ('keypoints' in json_obj):
+            annotated_keypoints_json_data = json_obj['keypoints']
+            for check_keypoint_json_obj in annotated_keypoints_json_data:
+                parsed_object.keypoints.append(check_keypoint_json_obj)
 
         parsed_object.update_transform()
 
@@ -426,6 +438,7 @@ class AnnotatedSceneInfo(object):
 
     def set_image_data(self, new_image_numpy_data):
         self.image_data = new_image_numpy_data
+        # print("set_image_data: {}".format(self.image_data.shape))
 
     def get_scene_info_str(self):
         info_str = path.splitext(path.basename(self.source_file_path))[0]

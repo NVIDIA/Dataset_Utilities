@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -12,7 +12,7 @@ import urllib.request
 import tarfile
 import zipfile
 import shutil
-from enum import IntEnum, unique
+# from enum import IntEnum, unique
 import argparse
 
 import nvdu
@@ -25,8 +25,9 @@ from nvdu.core.nvdu_data import *
 YCB_DATA_URL = "http://ycb-benchmarks.s3-website-us-east-1.amazonaws.com/data/"
 YCB_URL_POST_FIX = "_google_16k"    # Only support the 16k meshes at the moment
 
-@unique
-class YCBModelType(IntEnum):
+# @unique
+# class YCBModelType(IntEnum):
+class YCBModelType():
     Original = 0        # Original model, no modifications
     AlignedOnly = 1     # The model is aligned but doesn't get scaled
     AlignedCm = 2       # The model is aligned and get scaled to centimeter unit
@@ -54,12 +55,12 @@ def get_config_root_path():
     config_root_path = path.join(nvdu_root_path, "config")
     return config_root_path
 
-def get_ycb_object_settings_path(ycb_model_type: YCBModelType):
+def get_ycb_object_settings_path(ycb_model_type):
     config_root_path = get_config_root_path()
     ycb_object_settings_path = path.join(config_root_path, YCB_OBJECT_SETTINGS[ycb_model_type])
     return ycb_object_settings_path
 
-def get_ycb_root_dir(ycb_model_type: YCBModelType):
+def get_ycb_root_dir(ycb_model_type):
     return path.join(get_data_root_path(), YCB_DIR[ycb_model_type])
 
 def get_ycb_object_url(ycb_obj_name):

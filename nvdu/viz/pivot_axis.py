@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -11,7 +11,7 @@ from ctypes import *
 
 from .scene_object import *
 
-class PivotAxis(SceneObjectViz):
+class PivotAxis(SceneObjectViz3d):
     # Create a pivot axis object with 3 axes each can have different length
     def __init__(self, in_pivot_axis_obj, in_line_width = 5.0):
         super(PivotAxis, self).__init__(in_pivot_axis_obj)

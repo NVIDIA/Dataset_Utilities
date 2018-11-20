@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -7,7 +7,8 @@ import os
 from os import path
 import glob
 
-__version_info__ = (1, 0, 0, 0)
+__version_info__ = (1, 0, 0, 1)
+_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -23,10 +24,10 @@ def get_all_files(find_dir):
         if (path.isdir(full_path)):
             all_files.extend(get_all_files(full_path))
         else:
-            all_files.append(full_path)
+            relative_path = path.relpath(full_path, _ROOT)
+            all_files.append(relative_path)
     return all_files
 
-_ROOT = os.path.abspath(os.path.dirname(__file__))
 all_config_files = get_all_files(path.join(_ROOT, path.join('nvdu', 'config')))
 print("all_config_files: {}".format(all_config_files))
 
@@ -56,7 +57,8 @@ setup(
     ],
     keywords = "nvdu, nvidia",
     packages=find_packages(),
-    data_files=[('nvdu_config', all_config_files)],
+    package_data={'': all_config_files},
+    include_package_data=True,
     install_requires = [
         "numpy",
         "opencv-python",

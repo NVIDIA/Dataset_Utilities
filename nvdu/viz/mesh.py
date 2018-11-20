@@ -1,10 +1,10 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
 import os
 from os import path
-import asyncio
+# import asyncio
 from pyrr import Quaternion, Matrix44, Vector3, euler
 import numpy as np
 from pyglet.gl import *
@@ -57,7 +57,7 @@ class Model3dManager(object):
 
 GlobalModelManager = Model3dManager()
 
-class MeshViz(SceneObjectViz):
+class MeshViz(SceneObjectViz3d):
     def __init__(self, mesh_obj):
         super(MeshViz, self).__init__(mesh_obj)
 

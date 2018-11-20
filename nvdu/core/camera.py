@@ -1,9 +1,10 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
 import numpy as np
 import json
+from os import path
 from .transform3d import *
 from .utils3d import *
 
@@ -51,7 +52,7 @@ class CameraIntrinsicSettings(object):
         if (intrinsic_settings is None):
             return None
 
-        # print("intrinsic_settings: {}".format(intrinsic_settings))
+        print("intrinsic_settings: {}".format(intrinsic_settings))
 
         try:
             captured_image_size = json_obj['captured_image_size']
@@ -77,19 +78,20 @@ class CameraIntrinsicSettings(object):
             projection_matrix[3, 2] = -projection_matrix[3, 2]
 
         # print("projection_matrix_json: {}".format(projection_matrix_json))
-        # print("projection_matrix: {}".format(projection_matrix))
+        print("projection_matrix: {}".format(projection_matrix))
         
         return CameraIntrinsicSettings(res_width, res_height, fx, fy, cx, cy, projection_matrix)
 
     @staticmethod
     def from_json_file(json_file_path):
-        with open(json_file_path, 'r') as json_file:
-            json_obj = json.load(json_file)
-            if ('camera_settings' in json_obj):
-                viewpoint_list = json_obj['camera_settings']
-                # TODO: Need to parse all the viewpoints information, right now we only parse the first viewpoint
-                viewpoint_obj = viewpoint_list[0]
-                return CameraIntrinsicSettings.from_json_object(viewpoint_obj)
+        if (path.exists(json_file_path)):
+            with open(json_file_path, 'r') as json_file:
+                json_obj = json.load(json_file)
+                if ('camera_settings' in json_obj):
+                    viewpoint_list = json_obj['camera_settings']
+                    # TODO: Need to parse all the viewpoints information, right now we only parse the first viewpoint
+                    viewpoint_obj = viewpoint_list[0]
+                    return CameraIntrinsicSettings.from_json_object(viewpoint_obj)
         return None
 
     def get_intrinsic_matrix(self):

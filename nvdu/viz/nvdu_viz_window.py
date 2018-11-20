@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -14,7 +14,7 @@ from nvdu.core.nvdu_data import *
 class NVDUVizWindow(pyglet.window.Window):
     DEFAULT_EXPORT_DIR = "viz"
 
-    def __init__(self, width: int, height: int, caption: str =''):
+    def __init__(self, width, height, caption =''):
         super(NVDUVizWindow, self).__init__(width, height, caption)
         
         self._org_caption = caption
@@ -27,31 +27,31 @@ class NVDUVizWindow(pyglet.window.Window):
         self.auto_change_frame = False
         self.auto_fps = 0
 
-        self._dataset: NVDUDataset = None
-        self.export_dir: str = ""
-        self._should_export: bool = False
+        self._dataset = None
+        self.export_dir = ""
+        self._should_export = False
 
     @property
     def dataset(self):
         return self._dataset
 
     @dataset.setter
-    def dataset(self, new_dataset: NVDUDataset):
+    def dataset(self, new_dataset):
         self._dataset = new_dataset
         frame_count = self._dataset.scan()
         print("Number of frames in the dataset: {}".format(frame_count))
 
     @property
-    def should_export(self) -> bool:
+    def should_export(self):
         # Can export if the export directory is valid
         # return not (not self.export_dir)
         return self._should_export and self.export_dir
 
     @should_export.setter
-    def should_export(self, new_export: bool):
+    def should_export(self, new_export):
         self._should_export = new_export
 
-    def set_caption_postfix(self, postfix: str):
+    def set_caption_postfix(self, postfix):
         self.set_caption(self._org_caption + postfix)
 
     def setup(self):
@@ -91,17 +91,17 @@ class NVDUVizWindow(pyglet.window.Window):
         self.visualizer.camera.set_instrinsic_settings(new_cam_intrinsic_settings)
 
     # Save the current screenshot to a file
-    def save_screenshot(self, export_path: str):
+    def save_screenshot(self, export_path):
         screen_image = pyglet.image.get_buffer_manager().get_color_buffer()
         screen_image.save(export_path)
         print("save_screenshot: {}".format(export_path))
 
     def save_current_viz_frame(self):
         # TODO: Should ignore? if the visualized frame already exist
-        current_frame_name: str = self.dataset.get_frame_name_from_index(self.frame_index)
+        current_frame_name = self.dataset.get_frame_name_from_index(self.frame_index)
         # TODO: May need to add config to control the viz postfix
-        viz_frame_file_name: str = current_frame_name + "_viz.png"
-        export_viz_path: str = path.join(self.export_dir, viz_frame_file_name)
+        viz_frame_file_name = current_frame_name + "_viz.png"
+        export_viz_path = path.join(self.export_dir, viz_frame_file_name)
         if not path.exists(self.export_dir):
             os.makedirs(self.export_dir)
 
@@ -112,8 +112,8 @@ class NVDUVizWindow(pyglet.window.Window):
         print('Visualizing frame: {}'.format(self.frame_index))
         self.visualizer.visualize_dataset_frame(self.dataset, self.frame_index)
 
-    def set_frame_index(self, new_frame_index: int):
-        total_frame_count: int = self.dataset.frame_count
+    def set_frame_index(self, new_frame_index):
+        total_frame_count = self.dataset.frame_count
         if (new_frame_index < 0):
             new_frame_index += total_frame_count
         # TODO: May need to update the total frame count when it's invalid
@@ -137,6 +137,8 @@ class NVDUVizWindow(pyglet.window.Window):
             self.toggle_pivot()
         elif (symbol == key.F7):
             self.toggle_info_overlay()
+        elif (symbol == key.F8):
+            self.toggle_keypoint2d_overlay()
         elif (symbol == key.F12):
             self.toggle_export_viz_frame()
         elif (symbol == key._1):
@@ -188,6 +190,9 @@ class NVDUVizWindow(pyglet.window.Window):
         
     def toggle_pivot(self):
         self.visualizer.toggle_pivot_axis()
+
+    def toggle_keypoint2d_overlay(self):
+        self.visualizer.toggle_keypoint2d_overlay()
 
     def toggle_info_overlay(self):
         self.visualizer.toggle_info_overlay()   

@@ -1,15 +1,17 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
-from enum import IntEnum, unique
+# import future
+# from enum import IntEnum, unique
 import numpy as np
 import cv2
 from .scene_object import *
 
 # Related to the object's local coordinate system
 # @unique
-class CuboidVertexType(IntEnum):
+# class CuboidVertexType(IntEnum):
+class CuboidVertexType():
     FrontTopRight = 0
     FrontTopLeft = 1
     FrontBottomLeft = 2

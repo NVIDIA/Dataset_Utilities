@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -17,6 +17,7 @@ from nvdu.core.nvdu_data import *
 from .camera import *
 from .cuboid import *
 from .viewport import *
+from .pointcloud import *
 # from .pivot_axis import *
 from .mesh import *
 from .background_image import *
@@ -36,6 +37,20 @@ class AnnotatedObjectViz(object):
         
         self.pivot_axis = PivotAxis(self.object_info.pivot_axis)
         self.mesh = MeshViz(self.object_info.mesh)
+
+        raw_keypoints = self.object_info.keypoints
+        keypoint_locations = []
+        
+        if not (raw_keypoints is None):
+            for check_keypoint in raw_keypoints:
+                # TODO: don't hardcode the key name here and use const instead
+                if not (check_keypoint is None) and ('projected_location' in check_keypoint):
+                    check_keypoint_location = check_keypoint['projected_location']
+                    keypoint_locations.append(check_keypoint_location)
+
+        # print("raw_keypoints: {}".format(raw_keypoints))
+        # print("keypoint_locations: {}".format(keypoint_locations))        
+        self.keypoint2d = PointCloud2d(keypoint_locations)
         
         self.is_modified = False
 
@@ -91,6 +106,10 @@ class AnnotatedObjectViz(object):
         if self.pivot_axis:
             self.pivot_axis.set_visibility(visualizer_settings.show_pivot_axis and have_valid_transform)
 
+        if self.keypoint2d:
+            # print("visualizer_settings.show_keypoint2d: {}".format(visualizer_settings.show_keypoint2d))
+            self.keypoint2d.set_visibility(visualizer_settings.show_keypoint2d)
+
 # =============================== AnnotatedSceneViz ===============================
 class AnnotatedSceneViz(object):
     """Class contain annotation data of a scene"""
@@ -108,13 +127,18 @@ class AnnotatedSceneViz(object):
             img_width, img_height = dataset_settings.exporter_settings.captured_image_size
         # NOTE: Fallback to a default resolution.
         else:
-            img_width, img_height = 640, 480
-            print("There are no exporter_setting, set image size to 640x480")
+            img_width = self.camera_intrinsics.res_width
+            img_height = self.camera_intrinsics.res_height
+            # img_width, img_height = 640, 480
+        # print("Image size: {} x {}".format(img_width, img_height))
         # print("AnnotatedSceneViz - dataset_settings: {} - dataset_settings.exporter_settings: {}".format(
         #     dataset_settings, dataset_settings.exporter_settings))
         # print("AnnotatedSceneViz - img_width: {} - img_height: {}".format(img_width, img_height))
         # print("_scene_info.image_data = {}".format(self._scene_info.image_data))
         # print("object_vizs = {}".format(self._object_vizs))
+
+        # print("AnnotatedSceneViz: img_width = {} - img_height = {} - image_data: {}".format(img_width, img_height, self._scene_info.image_data.shape))
+        
         if not (self._scene_info.image_data is None):
             self.background_image = BackgroundImage.create_from_numpy_image_data(self._scene_info.image_data, img_width, img_height)
         else:
@@ -163,6 +187,7 @@ class VisualizerSettings(object):
         self.show_cuboid2d = True
         self.show_bb2d = True
         self.show_info_text = True
+        self.show_keypoint2d = False
         self.ignore_initial_matrix = False
 
     # TODO: Find a way to use template for all these flags
@@ -180,6 +205,10 @@ class VisualizerSettings(object):
         
     def toggle_bb2d(self):
         self.show_bb2d = not self.show_bb2d
+
+    def toggle_keypoint2d(self):
+        print("toggle_keypoint2d==========================")
+        self.show_keypoint2d = not self.show_keypoint2d
 
     def toggle_info_overlay(self):
         self.show_info_text = not self.show_info_text
@@ -225,6 +254,7 @@ class NVDUVisualizer():
             self.viewport.scene3d.add_object(obj.cuboid3d)
             self.viewport.scene3d.add_object(obj.pivot_axis)
             self.viewport.scene_overlay.add_object(obj.cuboid2d)
+            self.viewport.scene_overlay.add_object(obj.keypoint2d)
         
         if (self.visualizer_settings.show_info_text):
             self.scene_viz.info_text.draw()
@@ -249,13 +279,16 @@ class NVDUVisualizer():
     def toggle_info_overlay(self):
         self.visualizer_settings.toggle_info_overlay()
 
+    def toggle_keypoint2d_overlay(self):
+        self.visualizer_settings.toggle_keypoint2d()
+
     def set_render_mode(self, new_render_mode):
         self.visualizer_settings.render_mode = new_render_mode
 
     def set_text_color(self, new_text_color):
         self.scene_viz.set_text_color(new_text_color)
 
-    def visualize_dataset_frame(self, in_dataset: NVDUDataset, in_frame_index: int = 0):
+    def visualize_dataset_frame(self, in_dataset, in_frame_index = 0):
         frame_image_file_path, frame_data_file_path = in_dataset.get_frame_file_path_from_index(in_frame_index)
         if not path.exists(frame_image_file_path):
             print("Can't find image file for frame: {} - {}".format(in_frame_index, frame_image_file_path))

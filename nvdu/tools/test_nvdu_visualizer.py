@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -41,17 +41,17 @@ def main():
     # Launch Arguments
     parser = argparse.ArgumentParser(description='NVDU Data Visualiser')
     parser.add_argument('dataset_dir', type=str, nargs='?',
-        help="Dataset directory. This is where all the images (required) and annotation info (optional) are. Defaulted to the current directory", default=DEFAULT_data_dir_path)
-    parser.add_argument('-a', '--data_annot_dir', type=str, help="Directory path - where to find the annotation data. Defaulted to be the same directory as the dataset directory", default="")
-    parser.add_argument('-s', '--size', type=int, nargs=2, help="Window's size: [width, height]. If not specified then the window fit the resolution of the camera", default=[DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT])
+        help="Dataset directory. This is where all the images (required) and annotation info (optional) are. Default is the current directory", default=DEFAULT_data_dir_path)
+    parser.add_argument('-a', '--data_annot_dir', type=str, help="Directory path - where to find the annotation data. Default is the same directory as the dataset directory", default="")
+    parser.add_argument('-s', '--size', type=int, nargs=2, metavar=('WIDTH', 'HEIGHT'), help="Window's size: [width, height]. If not specified then the window fit the resolution of the camera", default=[DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT])
     parser.add_argument('-o', '--object_settings_path', type=str, help="Object settings file path")
     parser.add_argument('-c', '--camera_settings_path', type=str, help="Camera settings file path", default=None)
     parser.add_argument('-n', '--name_filters', type=str, nargs='*', help="The name filter of each frame. e.g: *.png", default=["*.png"])
     parser.add_argument('--fps', type=float, help="How fast do we want to automatically change frame", default=10)
-    parser.add_argument('--auto_change', action='store_true', help="If added this flag, the visualizer will automatically change the frame", default=False)
-    parser.add_argument('-e', '--export_dir', type=str, help="Directory path - where to store the visualized images. If this is set, the script will automatically export the visualized image to the export directory", default='')
-    parser.add_argument('--auto_export', action='store_true', help="If added this flag, the visualizer will automatically export the visualized frame to image file in the `export_dir` directory", default=False)
-    parser.add_argument('--ignore_fixed_transform', action='store_true', help="If added this flag, the visualizer will not use the fixed transform matrix for the 3d model", default=False)
+    parser.add_argument('--auto_change', action='store_true', help="If specified, the visualizer will automatically change the frame", default=False)
+    parser.add_argument('-e', '--export_dir', type=str, help="Directory path - where to store the visualized images. If specified, the script will automatically export the visualized image to the export directory. If not specified, the current directory will be used.", default='')
+    parser.add_argument('--auto_export', action='store_true', help="If specified, the visualizer will automatically export the visualized frame to image file in the `export_dir` directory", default=False)
+    parser.add_argument('--ignore_fixed_transform', action='store_true', help="If specified, the visualizer will not use the fixed transform matrix for the 3d model", default=False)
     # parser.add_argument('--gui', type=str, help="Show GUI window")
     
     # subparsers = parser.add_subparsers(help='sub-command help')
@@ -89,7 +89,16 @@ def main():
         camera_settings_path = NVDUDataset.get_default_camera_setting_file_path(dataset_dir_path)
 
     dataset_settings = DatasetSettings.parse_from_file(object_settings_path, model_dir_path)
+    if (dataset_settings is None):
+        print("Error: Could not locate dataset settings at {}".format(object_settings_path))
+
     camera_intrinsic_settings = CameraIntrinsicSettings.from_json_file(camera_settings_path)
+    if (camera_intrinsic_settings is None):
+        print("Error: Could not locate camera settings at {}".format(camera_settings_path))
+
+    if (dataset_settings is None or camera_intrinsic_settings is None):
+        exit(1)
+
     # print("camera_intrinsic_settings: {} - {}".format(camera_settings_path, camera_intrinsic_settings))
     
     # By default fit the window size to the resolution of the images

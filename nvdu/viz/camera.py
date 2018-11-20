@@ -1,4 +1,4 @@
-# Copyright © 2018 NVIDIA Corporation.  All rights reserved.
+# Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 # This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
 # License.  (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
@@ -16,7 +16,7 @@ from nvdu.core.camera import *
 from .scene_object import *
 
 # A Camera handle the perspective and frustrum of a scene
-class Camera(SceneObjectViz):
+class Camera(SceneObjectViz3d):
     # DEFAULT_ZNEAR = 0.000001
     # DEFAULT_ZNEAR = 0.00001
     DEFAULT_ZNEAR = 1
@@ -93,8 +93,8 @@ class Camera(SceneObjectViz):
             [0, 0, c, -1.0],
             [0, 0, d, 0]
         ])
-        print('build_perspective_projection_matrix: {} - znear: {} - zfar: {} - aspect_ratio_xy: {} - fovy: {}'.format(
-            self.projection_matrix, self.znear, self.zfar, self.aspect_ratio_xy, self.fovy))
+        # print('build_perspective_projection_matrix: {} - znear: {} - zfar: {} - aspect_ratio_xy: {} - fovy: {}'.format(
+            # self.projection_matrix, self.znear, self.zfar, self.aspect_ratio_xy, self.fovy))
 
     def set_viewport_size(self, viewport_size):
         self.viewport_size = viewport_size
