@@ -42,6 +42,7 @@ def main():
     parser = argparse.ArgumentParser(description='NVDU Data Visualiser')
     parser.add_argument('dataset_dir', type=str, nargs='?',
         help="Dataset directory. This is where all the images (required) and annotation info (optional) are. Default is the current directory", default=DEFAULT_data_dir_path)
+    parser.add_argument('-m', '--model_dir', type=str, help="Model directory. Default is <path to nvdu module>/data/ycb/original/", default=get_ycb_root_dir(YCBModelType.Original))
     parser.add_argument('-a', '--data_annot_dir', type=str, help="Directory path - where to find the annotation data. Default is the same directory as the dataset directory", default="")
     parser.add_argument('-s', '--size', type=int, nargs=2, metavar=('WIDTH', 'HEIGHT'), help="Window's size: [width, height]. If not specified then the window fit the resolution of the camera", default=[DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT])
     parser.add_argument('-o', '--object_settings_path', type=str, help="Object settings file path")
@@ -77,8 +78,7 @@ def main():
     # print("Number of frames in the dataset: {}".format(frame_count))
 
     # NOTE: Just use the YCB models path for now
-    # model_dir_path = args.model_dir
-    model_dir_path = get_ycb_root_dir(YCBModelType.Original)
+    model_dir_path = args.model_dir
 
     object_settings_path = args.object_settings_path
     camera_settings_path = args.camera_settings_path
