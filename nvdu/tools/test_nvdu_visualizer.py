@@ -91,6 +91,10 @@ def main():
     dataset_settings = DatasetSettings.parse_from_file(object_settings_path, model_dir_path)
     if (dataset_settings is None):
         print("Error: Could not locate dataset settings at {}".format(object_settings_path))
+    else:
+        if path.exists(camera_settings_path):
+            camera_json_data = json.load(open(camera_settings_path))
+            dataset_settings.exporter_settings = ExporterSettings.parse_from_json_data(camera_json_data)
 
     camera_intrinsic_settings = CameraIntrinsicSettings.from_json_file(camera_settings_path)
     if (camera_intrinsic_settings is None):
