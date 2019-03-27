@@ -19,8 +19,8 @@ class BackgroundImage(object):
 
     @classmethod
     def create_from_numpy_image_data(cls, numpy_image_data, width = 0, height = 0):
-        img_width = numpy_image_data.shape[0] if (width == 0) else width
-        img_height = numpy_image_data.shape[1] if (height == 0) else height
+        img_width = numpy_image_data.shape[1] if (width == 0) else width
+        img_height = numpy_image_data.shape[0] if (height == 0) else height
         
         new_image = cls(img_width, img_height)
         new_image.load_image_data_from_numpy(numpy_image_data)
