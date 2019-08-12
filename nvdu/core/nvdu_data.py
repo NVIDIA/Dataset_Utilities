@@ -238,12 +238,13 @@ class ExportedObjectSettings(object):
 
 class ExporterSettings(object):
     def __init__(self):
-        self.captured_image_size = [1280, 720]
+        self.captured_image_size = [0, 0]
 
     @classmethod
     def parse_from_json_data(cls, json_data):
         parsed_exporter_settings = ExporterSettings()
-        parsed_exporter_settings.captured_image_size = json_data['captured_image_size']
+        parsed_exporter_settings.captured_image_size = [json_data['camera_settings'][0]['captured_image_size']['width'],
+                                                        json_data['camera_settings'][0]['captured_image_size']['height']]
         print("parsed_exporter_settings.captured_image_size: {}".format(parsed_exporter_settings.captured_image_size))
         
         return parsed_exporter_settings
