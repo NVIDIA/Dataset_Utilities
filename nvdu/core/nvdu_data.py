@@ -8,6 +8,7 @@ from ctypes import *
 import json
 # from typing import List, Dict, Tuple
 import fnmatch
+import glob
 
 import numpy as np
 import cv2
@@ -174,7 +175,12 @@ class NVDUDataset(object):
         return self._frame_count
 
     def get_image_file_path_of_frame(self, in_frame_name):
-        return path.join(self._dataset_dir, in_frame_name + FrameImageExt)
+        for existing_file in glob.glob(in_frame_name + '*'):
+            for name_filter in self._img_name_filters:
+                if fnmatch.fnmatch(existing_file, name_filter):
+                    return path.join(self._dataset_dir, existing_file)
+
+        raise Exception('File not found: {}.*'.format(in_frame_name))
     
     def get_annotation_file_path_of_frame(self, in_frame_name):
         return path.join(self._annotation_dr, in_frame_name + FrameDataExt)
