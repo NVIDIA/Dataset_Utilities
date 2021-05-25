@@ -175,10 +175,10 @@ class NVDUDataset(object):
         return self._frame_count
 
     def get_image_file_path_of_frame(self, in_frame_name):
-        for existing_file in glob.glob(in_frame_name + '*'):
+        for existing_file in glob.glob(path.join(self._dataset_dir, in_frame_name + '*')):
             for name_filter in self._img_name_filters:
                 if fnmatch.fnmatch(existing_file, name_filter):
-                    return path.join(self._dataset_dir, existing_file)
+                    return existing_file
 
         raise Exception('File not found: {}.*'.format(in_frame_name))
     
